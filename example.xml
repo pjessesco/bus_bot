@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<response>
+    <comMsgHeader>
+        <errMsg>NORMAL SERVICE.</errMsg>
+        <returnCode>00</returnCode>
+    </comMsgHeader>
+    <msgHeader>
+        <queryTime>2018-01-04 18:49:17.075</queryTime>
+        <resultCode>0</resultCode>
+        <resultMessage>정상적으로 처리되었습니다.</resultMessage>
+    </msgHeader>
+    <msgBody>
+        <busArrivalItem>
+            <flag>PASS</flag>
+            <locationNo1>5</locationNo1>
+            <locationNo2>6</locationNo2>
+            <lowPlate1>0</lowPlate1>
+            <lowPlate2>0</lowPlate2>
+            <plateNo1>경기73바1310</plateNo1>
+            <plateNo2>경기73바1557</plateNo2>
+            <predictTime1>13</predictTime1>
+            <predictTime2>13</predictTime2>
+            <remainSeatCnt1>40</remainSeatCnt1>
+            <remainSeatCnt2>26</remainSeatCnt2>
+            <routeId>216000061</routeId>
+            <staOrder>47</staOrder>
+            <stationId>216000378</stationId>
+        </busArrivalItem>
+    </msgBody>
+</response>
+
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <response>
+        <comMsgHeader>
+            <errMsg>NORMAL SERVICE.</errMsg>
+            <returnCode>00</returnCode>
+        </comMsgHeader>
+        <msgHeader>
+            <queryTime>2018-01-06 21:07:41.270</queryTime>
+            <resultCode>4</resultCode>
+            <resultMessage>결과가 존재하지 않습니다.</resultMessage>
+        </msgHeader>
+    </response>
