@@ -3,11 +3,10 @@ import requests
 import global_variable
 import strings
 
-
 class Reservation:
 
-    def __init__(self, user_id, station, route, min):
-        self.user_id = user_id
+    def __init__(self, channel_id, station, route, min):
+        self.channel_id = channel_id
         self.station = station
         self.route = route
         self.min = min
@@ -21,7 +20,6 @@ class Reservation:
         assert check_valid_input(self.station, self.route) != False
 
         req = strings.make_bus_api_string(station_id, route_id)
-
         xml_root = ElementTree.fromstring(requests.get(req).content)
 
         predict_time = int(xml_root[2][0][7].text)
@@ -37,7 +35,7 @@ class Reservation:
             global_variable.get_slacker().chat.post_message(channel="#test_bot", text="에러뜸", username="bus bot")
 
         result_str = self.route + " " + self.station + "에 " + str(min)+"분 이내로 도착"
-        global_variable.get_slacker().chat.post_message(channel="#test_bot", text=result_str, username="bus bot")
+        global_variable.get_slacker().chat.post_message(channel=self.channel_id, text=result_str, username="bus bot")
 
 
 #                                      string
@@ -56,7 +54,6 @@ def check_valid_input(station, route, min=None):
 def request_info(station_id,route_id):
 
     req = strings.make_bus_api_string(station_id, route_id)
-
     xml_root=ElementTree.fromstring(requests.get(req).content)
 
     return parse_info(xml_root,station_id,route_id)
@@ -109,8 +106,9 @@ def parse_msg(msg):
 
                 if(id):
                     # todo : 만약 이미 추가돼있다면 추가하지 않기
+                    # todo : 꼭 제거 기능을 만들어야 하나?
                     if(input[4] == 'on'):
-                        global_variable.get_reserve_list().append(Reservation(msg['user'], input[1], input[2], int(float(input[3]))))
+                        global_variable.get_reserve_list().append(Reservation(msg['channel'], input[1], input[2], int(float(input[3]))))
                         return "예약됨"
 
                 else:

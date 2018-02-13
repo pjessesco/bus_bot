@@ -1,6 +1,6 @@
 import time
 import websocket
-import ast
+import json
 
 import schedule
 import global_variable
@@ -17,7 +17,6 @@ if __name__ == '__main__':
         scheduler = schedule.get_scheduler()
         scheduler.start()
         schedule.set_scheduler(scheduler)
-
         schedule.get_scheduler().add_job(
             func=schedule.process_reserve,
             trigger='interval',
@@ -25,9 +24,9 @@ if __name__ == '__main__':
         )
 
         while True:
-            msg = ast.literal_eval(slack_socket.recv())
+            msg = json.loads(slack_socket.recv())
+
             if(len(msg)>0):
-                # todo : dm으로 보내면 깨짐
                 res=core.parse_msg(msg)
                 if(res is not None):
                     global_variable.get_slacker().chat.post_message(channel=msg['channel'],text=res,username="bus bot")
