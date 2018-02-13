@@ -46,7 +46,14 @@ def make_user_resereve_list_string(user_id):
 def make_no_result_string():
     return "결과가 존재하지 않습니다. 버스가 없을수도"
 
-def make_bus_api_string(station_id, route_id):
+# 특정 정류장의 특정 노선의 도착 정보
+def make_bus_api_string(station_id, route_id=None):
+
+    if route_id == None:
+        return 'http://openapi.gbis.go.kr/ws/rest/busarrivalservice/station?' \
+               'serviceKey=' + global_variable.BUS_API_KEY + \
+               '&stationId=' + station_id
+
     return 'http://openapi.gbis.go.kr/ws/rest/busarrivalservice?' \
           'serviceKey=' + global_variable.BUS_API_KEY + \
           '&stationId=' + station_id + \

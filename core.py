@@ -19,7 +19,7 @@ class Reservation:
         station_id, route_id = check_valid_input(self.station, self.route)
         assert check_valid_input(self.station, self.route) != False
 
-        req = strings.make_bus_api_string(station_id, route_id)
+        req = strings.make_bus_api_string(station_id=station_id, route_id=route_id)
         xml_root = ElementTree.fromstring(requests.get(req).content)
 
         predict_time = int(xml_root[2][0][7].text)
@@ -51,28 +51,32 @@ def check_valid_input(station, route, min=None):
     route_id = global_variable.route_list[route]
     return station_id, route_id
 
-def request_info(station_id,route_id):
+def request_info(station_id,route_id=None):
 
-    req = strings.make_bus_api_string(station_id, route_id)
+    req = strings.make_bus_api_string(station_id=station_id, route_id=route_id)
     xml_root=ElementTree.fromstring(requests.get(req).content)
 
     return parse_info(xml_root,station_id,route_id)
 
-def parse_info(xml_root,station_id,route_id):
 
-    station_name = list(global_variable.station_list.keys())[list(global_variable.station_list.values()).index(station_id)]
-    route_name = list(global_variable.route_list.keys())[list(global_variable.route_list.values()).index(route_id)]
-    response=station_name+" "+route_name+"\n"
 
-    if(xml_root[1][1].text=='4'):
-        return strings.make_no_result_string()
+def parse_info(xml_root,station_id,route_id=None):
 
-    response += strings.make_response_string(xml_root[2][0][1].text, xml_root[2][0][7].text, xml_root[2][0][5].text)
+    if route_id != None:
+        station_name = list(global_variable.station_list.keys())[list(global_variable.station_list.values()).index(station_id)]
+        route_name = list(global_variable.route_list.keys())[list(global_variable.route_list.values()).index(route_id)]
+        response=station_name+" "+route_name+"\n"
 
-    if(xml_root[2][0][2].text is not None):
-        response+= strings.make_response_string(xml_root[2][0][2].text, xml_root[2][0][8].text, xml_root[2][0][6].text)
+        if(xml_root[1][1].text=='4'):
+            return strings.make_no_result_string()
 
-    return response
+        response += strings.make_response_string(xml_root[2][0][1].text, xml_root[2][0][7].text, xml_root[2][0][5].text)
+
+        if(xml_root[2][0][2].text is not None):
+            response+= strings.make_response_string(xml_root[2][0][2].text, xml_root[2][0][8].text, xml_root[2][0][6].text)
+
+        return response
+
 
 
 
@@ -96,7 +100,7 @@ def parse_msg(msg):
                 id = check_valid_input(input[1], input[2])
 
                 if(id):
-                    return request_info(id[0], id[1])
+                    return request_info(station_id=id[0], route_id=id[1])
 
                 else:
                     return strings.make_not_supported_string()
