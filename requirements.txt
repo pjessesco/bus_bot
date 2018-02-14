@@ -1,4 +1,11 @@
-slacker
-requests
-websocket-client
-apscheduler
+APScheduler==3.5.1
+certifi==2018.1.18
+chardet==3.0.4
+idna==2.6
+pytz==2018.3
+requests==2.18.4
+six==1.11.0
+slacker==0.9.60
+tzlocal==1.5.1
+urllib3==1.22
+websocket-client==0.46.0
