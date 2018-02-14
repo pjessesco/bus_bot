@@ -1,8 +1,8 @@
 from slacker import Slacker
 import os
 
-SLACK_TOKEN = os.environ['SLACK_TOKEN']
-BUS_API_KEY = os.environ['BUS_API_KEY']
+SLACK_TOKEN = os.environ.get('SLACK_TOKEN')
+BUS_API_KEY = os.environ.get('BUS_API_KEY')
 
 #config.py에 키 만들기
 # import config
