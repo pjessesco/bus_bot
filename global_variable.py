@@ -1,9 +1,16 @@
 from slacker import Slacker
-#config.py에 키 만들기
-import config
+import os
 
-SLACK_TOKEN=config.SLACK_TOKEN
-BUS_API_KEY=config.BUS_API_KEY
+SLACK_TOKEN = os.environ['SLACK_TOKEN']
+BUS_API_KEY = os.environ['BUS_API_KEY']
+
+#config.py에 키 만들기
+# import config
+
+# SLACK_TOKEN=config.SLACK_TOKEN
+# BUS_API_KEY=config.BUS_API_KEY
+
+
 
 # 추가하기 : http://www.gbis.go.kr/gbis2014/publicService.action?cmd=tBusStationList 에서 정류소 이름으로 검색 (테스트 값 입력 후)
 #          -> 나온 정류소 id를 이용해서 노선 id 검색
