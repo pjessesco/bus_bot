@@ -5,7 +5,8 @@ import strings
 
 class Reservation:
 
-    def __init__(self, channel_id, station, route, min):
+    def __init__(self, user_id, channel_id, station, route, min):
+        self.user_id = user_id
         self.channel_id = channel_id
         self.station = station
         self.route = route
@@ -112,7 +113,7 @@ def parse_msg(msg):
                     # todo : 만약 이미 추가돼있다면 추가하지 않기
                     # todo : 꼭 제거 기능을 만들어야 하나?
                     if(input[4] == 'on'):
-                        global_variable.get_reserve_list().append(Reservation(msg['channel'], input[1], input[2], int(float(input[3]))))
+                        global_variable.get_reserve_list().append(Reservation(msg['user'],msg['channel'], input[1], input[2], int(float(input[3]))))
                         return "예약됨"
 
                 else:
