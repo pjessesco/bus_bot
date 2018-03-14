@@ -169,9 +169,6 @@ def parse_msg(msg):
                         return "예약됨"
 
                 else:
-                    if(input[4]=='on'):
-                        global_variable.get_reserve_list().append(Reservation(msg['user'],msg['channel'], input[1], input[2], int(float(input[3]))))
-                        return "예약됨"
                     return strings.make_not_supported_string(1)
 
             else:
