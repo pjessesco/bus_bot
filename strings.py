@@ -1,20 +1,55 @@
 import global_variable
+import requests
+from bs4 import BeautifulSoup
+#plate_no - 잔여좌석(42이상), 특정 번호판 차량(3102)
+def is_doubledecker(plate_no,seat):
+    doubledecker_list = ['1039', '1310', '1320', '1557', '1681']
+    if int(seat) > 41 or plate_no[-4:] in doubledecker_list:
+        return ", 2층 버스입니다.\n"
+    else:
+        return "\n"
 
-def make_response_string(location,predictTime,plate_no):
-    return plate_no+" 현재 "+str(location)+"번째 전 정류장, "+str(predictTime)+"분 후 도착 예정\n"
+#routeNum - 노선번호('3102'), stnId - 정류장코드
+#목적지 추가 코드
+def get_destination(routeNum,stnId):
+    string = ''
+    temp = 0
+    result_link = 'http://m.gbis.go.kr/search/StationArrivalViaList.do?stationId='+stnId
+    response2 = requests.get(result_link)
+    html = response2.text
+    soup2 = BeautifulSoup(html,'html.parser')
+    destination = soup2.findAll('span',{'class',"ellipsis"})[1:]
+    routeName = soup2.findAll('div',{'class':'bus-num-y float-l md-30p pdt_3'})
+    routeName += soup2.findAll('div',{'class':'bus-num-g float-l md-30p pdt_3'})
+    routeName += soup2.findAll('div',{'class':'bus-num-b float-l md-30p pdt_3'})
+    routeName += soup2.findAll('div',{'class':'bus-num-r float-l md-30p pdt_3'})
+    routeName += soup2.findAll('div',{'class':'bus-num-p float-l md-30p pdt_3'})
+    routeName += soup2.findAll('div',{'class':'bus-num-gr float-l md-30p pdt_3'})
+    for index in range(0,len(destination)):
+        if routeName[index].string == routeNum and temp != index:
+            temp = index
+            string += destination[index].string + '\n'
+            break
+    return string
 
+#잔여좌석 안내기 추가
+def make_response_string(location,predictTime,plate_no,remainSeatCnt='-1'):
+    string=plate_no+" 현재 "+str(location)+"번째 전 정류장, "+str(predictTime)+"분 후 도착 예정"
+    if remainSeatCnt != '-1':
+        string += ', 잔여좌석 '+remainSeatCnt+'석'
+    string+=is_doubledecker(plate_no,remainSeatCnt)
+    return string
 
 def make_help_string():
     response="현재 지원하는 노선 : "
-    for key in global_variable.route_list:
-        response+=key+", "
+    response+="경기도 차적 노선 및 경기도 진입 전 노선(마을버스 제외)"
     response+="\n현재 지원하는 정류장 : "
-    for key in global_variable.station_list:
-        response+=key+", "
+    response += "경기도 전 정류장 및 서울/인천 일부 정류장"
     response += "\nex)\n"
     response += "\n버스 조회 : *버스봇 양재 3102*"
     response += "\n알람 등록 : *버스봇 양재 3102 10 on* (3102 버스가 양재역에 10분 이내로 올 때 알람)"
     response += "\n예약 조회 : *버스봇 내 예약*"
+    response += "\n전철 조회 : *전철봇 한대앞*"
     #todo : 예약 없애기 만들기
     return response
 
