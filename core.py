@@ -2,7 +2,6 @@ from xml.etree import ElementTree
 import requests
 import global_variable
 import strings
-import subway
 from bs4 import BeautifulSoup
 
 class Reservation:
@@ -173,8 +172,4 @@ def parse_msg(msg):
 
             else:
                 return strings.make_help_string()
-        elif(input[0]=="전철봇"):
-            if (msg_text.count(' ')==1):
-                return subway.subway(input[1])
-            else:
-                return string.make_help_string()
+
