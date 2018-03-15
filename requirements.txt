@@ -9,3 +9,4 @@ slacker==0.9.60
 tzlocal==1.5.1
 urllib3==1.22
 websocket-client==0.46.0
+bs4==0.0.1
