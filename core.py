@@ -61,19 +61,20 @@ def request_info(station_id,route_id=None):
 
 #버스정류장 코드 5자리 또는 이름으로 검색 후 제대로 된 정류장인지 검증
 def stations_get_by_name(name,route):
+    no_search_stop="검색된 정류소가 없습니다."
     stationList = []
     result = []
-    link = 'http://openapi.gbis.go.kr/ws/rest/busstationservice?serviceKey='+global_variable.BUS_API_KEY+'&keyword='+name
+    link = strings.make_bus_api_string_by_name(name)
     response = requests.get(link)
     soup = BeautifulSoup(response.content,'lxml-xml')
     for stop in soup.findAll('busStationList'):
     	stationList += [{stop.find('stationId').string:stop.find('stationName').string}]
     if stationList == []:
-        return "검색된 정류소가 없습니다."
+        return no_search_stop
     else:
         for stnlist in stationList:
             x = list(stnlist.keys())[0]
-            link = 'http://openapi.gbis.go.kr/ws/rest/busstationservice/route?serviceKey='+global_variable.BUS_API_KEY+'&stationId='+x
+            link = strings.get_busstop_info(x)
             response = requests.get(link)
             soup = BeautifulSoup(response.content,'lxml-xml')
             for busline in soup.findAll('busRouteList'):

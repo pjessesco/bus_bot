@@ -93,3 +93,9 @@ def make_bus_api_string(station_id, route_id=None):
           'serviceKey=' + global_variable.BUS_API_KEY + \
           '&stationId=' + station_id + \
           '&routeId=' + route_id
+
+def make_bus_api_string_by_name(name):
+    return 'http://openapi.gbis.go.kr/ws/rest/busstationservice?serviceKey='+global_variable.BUS_API_KEY+'&keyword='+name
+
+def get_busstop_info(stnid):
+    return 'http://openapi.gbis.go.kr/ws/rest/busstationservice/route?serviceKey='+global_variable.BUS_API_KEY+'&stationId='+stnid
