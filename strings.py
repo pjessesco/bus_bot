@@ -14,7 +14,7 @@ def is_doubledecker(plate_no,seat):
 def get_destination(routeNum,stnId):
     string = ''
     temp = 0
-    result_link = 'http://m.gbis.go.kr/search/StationArrivalViaList.do?stationId='+stnId
+    result_link = get_busstop_info2(stnId)
     response2 = requests.get(result_link)
     html = response2.text
     soup2 = BeautifulSoup(html,'html.parser')
@@ -41,15 +41,12 @@ def make_response_string(location,predictTime,plate_no,remainSeatCnt='-1'):
     return string
 
 def make_help_string():
-    response="현재 지원하는 노선 : "
-    response+="경기도 차적 노선 및 경기도 진입 전 노선(마을버스 제외)"
-    response+="\n현재 지원하는 정류장 : "
-    response += "경기도 전 정류장 및 서울/인천 일부 정류장"
+    response ='마을버스를 제외한 경기도 차적 노선 및 경기도 진입 전 노선 지원'
+    response += "\n경기도 전 정류장 및 서울/인천 일부 정류장 지원"
     response += "\nex)\n"
     response += "\n버스 조회 : *버스봇 양재 3102*"
     response += "\n알람 등록 : *버스봇 양재 3102 10 on* (3102 버스가 양재역에 10분 이내로 올 때 알람)"
     response += "\n예약 조회 : *버스봇 내 예약*"
-    response += "\n전철 조회 : *전철봇 한대앞*"
     #todo : 예약 없애기 만들기
     return response
 
@@ -99,3 +96,6 @@ def make_bus_api_string_by_name(name):
 
 def get_busstop_info(stnid):
     return 'http://openapi.gbis.go.kr/ws/rest/busstationservice/route?serviceKey='+global_variable.BUS_API_KEY+'&stationId='+stnid
+
+def get_busstop_info2(stnid):
+    return 'http://m.gbis.go.kr/search/StationArrivalViaList.do?stationId='+stnid
