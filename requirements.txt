@@ -3,7 +3,7 @@ certifi==2018.1.18
 chardet==3.0.4
 idna==2.6
 pytz==2018.3
-requests==2.18.4
+requests==2.20.0
 six==1.11.0
 slacker==0.9.60
 tzlocal==1.5.1
